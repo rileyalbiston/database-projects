@@ -12,7 +12,7 @@ This is a super simple database for storing recipes.
 
 ## Logical Model
 
-<img src="https://i.imgur.com/0FhAOJh" title="source: imgur.com" />
+![recipe logical model](https://i.imgur.com/0FhAOJh "recipe logical model")
 
 ### Assumptions
 
@@ -23,6 +23,6 @@ This is a super simple database for storing recipes.
 
 <img src="https://imgur.com/ISqV4vJ" title="source: imgur.com" />
 
-https://imgur.com/ISqV4vJ
+![recipe physical model](https://imgur.com/ISqV4vJ "recipe physical model")
 
 ## Data Dictionary

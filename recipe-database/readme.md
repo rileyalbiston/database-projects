@@ -24,3 +24,5 @@ This is a super simple database for storing recipes.
 ![recipe physical model](https://i.imgur.com/ISqV4vJ.png "recipe physical model")
 
 ## Data Dictionary
+
+add table

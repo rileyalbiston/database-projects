@@ -1,0 +1,14 @@
+Attribute,Attribute Description
+Ward,Which Ward in Brisbane the tap/bubbler is located in.
+Suburb,Which suburb in Brisbane the tap/bubbler is located in.
+Property Code,"We have included the property code so that in the future, when we add additional parks datasets a correlation can be made."
+Park Name,The name of the Brisbane Park where the tap/bubbler is located.
+Node ID,"We have included the Node ID so that in the future, when we add additional parks datasets a correlation can be made."
+Node Name,This narrows down to specific locations within parks and can be useful when looking at our larger parks.
+Item ID,This could be useful in future solutions that feed back to Council systems. It is a unique identifying in our Council database for that park asset.
+Item Type,"The type of the item, which in this case is “Bubbler/Fountain” (a water fountain) or “Tap Combination”(a water fountain and publicly accessible water tap combination)."
+Item Description,This includes any information that may have been collected by field services about this park asset and is a free form field.
+Latitude,Latitude in geographic coordinate system (WGS84).
+Longitude,Longitude in geographic coordinate system (WGS84).
+Easting,X coordinate in GDA94 projection (Zone 56).
+Northing,Y coordinate in GDA94 projection (Zone 56).

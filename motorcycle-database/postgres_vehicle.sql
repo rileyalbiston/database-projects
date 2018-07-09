@@ -5,10 +5,12 @@
 -- =============== CREATE ===============
 -- ======================================
 
-CREATE DATABASE motorcycle_maintenance;
+-- CREATE DATABASE vehicle_maintenance;
+-- DROP DATABASE vehicle_maintenance;
 
+-- psql -U postgres -d vehicle_maintenance -a -f postgres_vehicle.sql
 
-CREATE TABLE motorcycle (
+CREATE TABLE IF NOT EXISTS vehicle (
 	id serial,
 	make varchar(255) NOT NULL,
 	model varchar(255) NOT NULL,
@@ -17,39 +19,39 @@ CREATE TABLE motorcycle (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE service (
+CREATE TABLE IF NOT EXISTS service (
 	id serial, 
 	service_date date,
 	odometer integer, 
 	details varchar(255),
-	motorcycle_id integer NOT NULL;
+	vehicle_id integer NOT NULL,
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE part (
+CREATE TABLE IF NOT EXISTS part (
 	id serial,
 	brand varchar(255),
 	part_number varchar(255),
 	description varchar(255),
 	category_id integer,
-	motorcycle_id integer NOT NULL;
+	vehicle_id integer NOT NULL,
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE category (
+CREATE TABLE IF NOT EXISTS category (
 	id serial,
 	category varchar(255),
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE comment (
+CREATE TABLE IF NOT EXISTS comment (
 	id serial,
 	comment varchar(255),
 	part_id integer,
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE link (
+CREATE TABLE IF NOT EXISTS link (
 	id serial,
 	url varchar(255),
 	comment varchar(255),
@@ -57,13 +59,37 @@ CREATE TABLE link (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE service_part (
+CREATE TABLE IF NOT EXISTS project (
+	id serial,
+	description varchar(255),
+	vehicle_id integer,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS step (
+	id serial,
+	details varchar(255),
+	project_id integer,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS service_part (
 	service_id integer NOT NULL,
 	part_id integer NOT NULL,
 	CONSTRAINT service_part_pkey PRIMARY KEY (service_id, part_id),
 	CONSTRAINT service_part_service_fkey FOREIGN KEY (service_id) REFERENCES service (id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	CONSTRAINT service_part_part_fkey FOREIGN KEY (part_id) REFERENCES part (id) ON UPDATE CASCADE ON DELETE RESTRICT
-	);
+);
+
+CREATE TABLE IF NOT EXISTS project_part (
+	project_id integer NOT NULL,
+	part_id integer NOT NULL,
+	CONSTRAINT project_part_pkey PRIMARY KEY (project_id, part_id),
+	CONSTRAINT project_part_project_fkey FOREIGN KEY (project_id) REFERENCES project (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT project_part_part_fkey FOREIGN KEY (part_id) REFERENCES part (id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+
 
 -- =============== ADD CONSTRAINT ===============
 -- ==============================================
@@ -83,10 +109,16 @@ ALTER TABLE link
 ADD CONSTRAINT link_part_fkey FOREIGN KEY (part_id) REFERENCES part (id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 ALTER TABLE part
-ADD CONSTRAINT part_motorcycle_fkey FOREIGN KEY (motorcycle_id) REFERENCES motorcycle (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ADD CONSTRAINT part_vehicle_fkey FOREIGN KEY (vehicle_id) REFERENCES vehicle (id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 ALTER TABLE service
-ADD CONSTRAINT service_motorcycle_fkey FOREIGN KEY (motorcycle_id) REFERENCES motorcycle (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ADD CONSTRAINT service_vehicle_fkey FOREIGN KEY (vehicle_id) REFERENCES vehicle (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE project
+ADD CONSTRAINT project_vehicle_fkey FOREIGN KEY (vehicle_id) REFERENCES vehicle (id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE step
+ADD CONSTRAINT step_project_fkey FOREIGN KEY (project_id) REFERENCES project (id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 -- temp alter table to add coulmns 
 
@@ -95,3 +127,6 @@ ADD CONSTRAINT service_motorcycle_fkey FOREIGN KEY (motorcycle_id) REFERENCES mo
 
 -- ALTER TABLE service
 -- ADD motorcycle_id integer NOT NULL;
+
+--ALTER TABLE part 
+--RENAME COLUMN motorcycle_id TO vehicle_id;
